@@ -1,2 +1,12 @@
-# test scripts
-test*
+# python stuff
+.venv/
+__pycache__/
+
+# vscode workspace
+.vscode/
+
+# saved models
+*.pkl
+
+# result file
+*.json
