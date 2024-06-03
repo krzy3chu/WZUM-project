@@ -1,13 +1,13 @@
 # All-NBA Teams predictions
-This repository implements the process of obtaining and evaluating a machine learning model to predict the players selected for the [All-NBA](https://www.nba.com/news/history-all-nba-teams) and [NBA All-Rookie](https://www.nba.com/news/history-all-rookie-teams) teams in a given season.
+This repository implements the process of obtaining and evaluating a machine learning model used to predict the players selected for the [All-NBA](https://www.nba.com/news/history-all-nba-teams) and [NBA All-Rookie](https://www.nba.com/news/history-all-rookie-teams) teams in a given season.
 
-Project dependencies can be found in file *requirements.txt*. *All-NBA.ipynb* and *All-NBA-Rookies* Jupyter Notebooks are used to develop seperate models. General concepts and most of the code in both files are the same, but they are split between two notebooks for a more convenient workflow. Predict.py script allows you to predict teams in a given season based on trained models. It must be run with one argument, which specifies path to results file with predictions in json format.
+Project dependencies can be found in file *requirements.txt*. *All-NBA.ipynb* and *All-NBA-Rookies* Jupyter Notebooks are used to develop seperate models. General concepts and most of the code in both files are the same, but they are split between two notebooks for a more convenient workflow. *predict.py* script allows you to predict teams in a given season based on trained models. It must be run with one argument, which specifies path to results file with predictions in json format.
 
 
 ## Machine learning workflow description
 
 ### Data preparation and analysis
-Project uses players performance statistics from the [nba.com](https://www.nba.com/stats/leaders?SeasonType=Regular+Season&PerMode=Totals) website, which are accessed through a client [API](https://github.com/swar/nba_api). Statistics are fetched for each regular season separately in a totals mode. Only 100 players who scored the most points in a given season are taken into account. Data from all specified seasons (1994-2024) is stacked up into one pandas DataFrame as in the example below. 
+Project uses players performance statistics from the [nba.com](https://www.nba.com/stats/leaders?SeasonType=Regular+Season&PerMode=Totals) website, which are accessed through a client [API](https://github.com/swar/nba_api). Statistics are fetched for each regular season separately in a totals mode. Only 100 players who scored the most points in a given season are taken into account. Data from all specified seasons (1994-2024) is stacked up into one pandas DataFrame as in the table below. 
 
 | SEASON   | PLAYER                  | TEAM   |   GP |   MIN |   PTS |   FGM |   FGA |   FG_PCT |   FG3M |   FG3A |   FG3_PCT |   REB |   EFF |
 |:---------|:------------------------|:-------|-----:|------:|------:|------:|------:|---------:|-------:|-------:|----------:|------:|------:|
@@ -21,9 +21,9 @@ Project uses players performance statistics from the [nba.com](https://www.nba.c
 | 1994-95  | Bobby Phills    | CLE    |   80 |  2500 |   878 |   338 |   816 |    0.414 |     19 |     55 |     0.345 |   265 |   820 |
 | 1994-95  | Spud Webb       | SAC    |   76 |  2458 |   878 |   302 |   689 |    0.438 |     48 |    145 |     0.331 |   174 |  1015 |
 
-Data about All-NBA teams picked in previous years are stored in the *targets.csv* file, where the first 15 names are players from three All-NBA teams, and the last 10 names are from two NBA All-Rookie teams. Data from this file is used to mark players in DataFrame with corresponding values (3 for first team, 2 for second, 1 for third and similarly for rookies). Vector of this data will be used then in machine learning process as target. Gathered data can be analyzed in an auxiliary dataframe, which may allow to detect any gaps in the data.
+All-NBA teams picked in previous years are stored in the *targets.csv* file, where the first 15 names are players from three All-NBA teams, and the last 10 names are from two NBA All-Rookie teams. Data from this file is used to mark players in DataFrame with corresponding values (3 for first team, 2 for second, 1 for third and similarly for rookies). Vector of this data will be used then in machine learning process as target. Gathered data can be analyzed in an auxiliary dataframe, which may be used to detect any gaps in the data.
 
-In next step the data is split between train and test dataframes based on seasons specified in a list (every fith year for default). Then the entire available set of features is passed to the pipeline. The figure below shows a graphical distribution of the normalized values ​​of two sample features (efficiency and points), with All-NBA teams players marked with different colors.
+In next step the data is split between train and test dataframes based on seasons specified in a list (every fith year for default). The entire available set of features is passed to the pipeline then. The figure below shows a graphical distribution of the normalized values ​​of two sample features (efficiency and points), with All-NBA teams players marked with different colors.
 
 ![alt](./assets/efficiency_points_distribution.svg)
 
